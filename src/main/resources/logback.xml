@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration>
+  <appender class="ch.qos.logback.core.ConsoleAppender"
+    name="STDOUT">
+    <encoder>
+      <pattern>%d [%thread] [%-5level] [%C.%M] - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender class="ch.qos.logback.core.rolling.RollingFileAppender"
+    name="FILE">
+    <append>true</append>
+    <encoder>
+      <outputPatternAsHeader>true</outputPatternAsHeader>
+      <pattern>%d [%thread] [%-5level] [%C.%M] - %msg%n</pattern>
+    </encoder>
+    <file>${LOG_HOME}/application.log</file>
+    <rollingPolicy
+      class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>stealth.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <!-- keep 30 days' worth of history capped at 3GB total size -->
+      <maxHistory>10</maxHistory>
+      <totalSizeCap>1GB</totalSizeCap>
+    </rollingPolicy>
+  </appender>
+
+  <logger level="TRACE" name="com.vikrant">
+    <appender-ref ref="FILE"/>
+  </logger>
+
+  <property name="LOG_HOME" value="."/>
+
+  <root level="INFO">
+    <appender-ref ref="STDOUT"/>
+  </root>
+</configuration>
